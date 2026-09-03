@@ -8,7 +8,9 @@
 - 인쇄본 PDF: [`dist/기록정보서비스론_2026-2_학생용.pdf`](dist/)
 - 저자: 안대진 · <djahhn@gmail.com>
 
-<p align="center"><img src="cover.png" alt="표지" width="320"></p>
+<p align="center">
+  <img src="cover.png" alt="기록정보서비스론 표지 — 기록과 이용자를 연결하는 서비스의 설계" width="360">
+</p>
 
 ## 교재 구성
 
