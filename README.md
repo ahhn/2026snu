@@ -5,7 +5,7 @@
 서울대학교 인문대학 협동과정 기록학전공 「기록정보서비스론」(2026학년도 2학기) 강의교재의 원본 소스와 빌드 도구입니다.
 
 - 온라인판(전자책): <https://wikidocs.net/book/21081>
-- 인쇄본 PDF: [`dist/기록정보서비스론_2026-2_학생용.pdf`](dist/)
+- 인쇄본 PDF: **[기록정보서비스론_2026_부록A제외.pdf 내려받기](https://github.com/ahhn/2026snu/raw/main/dist/%EA%B8%B0%EB%A1%9D%EC%A0%95%EB%B3%B4%EC%84%9C%EB%B9%84%EC%8A%A4%EB%A1%A0_2026_%EB%B6%80%EB%A1%9DA%EC%A0%9C%EC%99%B8.pdf)** (2.7MB)
 - 저자: 안대진 · <djahhn@gmail.com>
 
 <p align="center">
@@ -25,40 +25,6 @@
 | 디지털·데이터 | 9~11장 | 디지털 아카이브 서비스, FAIR 원칙, 시맨틱 검색과 온톨로지 |
 | 서비스 프로토타이핑 | 12~13장 | 생성형 AI 활용과 비판적 검토, 구현·검증·문서화 |
 | 확장과 평가 | 14~15장 | 아웃리치와 전시, 서비스 평가 |
-
-## 디렉터리
-
-```
-src/      원본 마크다운(정본). 00_front.md(서문), 01.md~15.md, 삽화
-back/     권말 자료 — 참고문헌, 색인(웹용/색인어 목록), 판권, 저자 소개
-build/    빌드·동기화 스크립트
-dist/     산출물 PDF
-```
-
-`src/*.md`가 정본이며, 여기에서 위키독스 페이지와 Word/PDF 인쇄본이 생성됩니다.
-
-## 빌드
-
-Python 3, [pandoc](https://pandoc.org), LibreOffice가 필요합니다.
-
-```bash
-# 인쇄본(Word + PDF) 생성 — 색인 페이지 번호를 얻기 위해 2단계로 빌드됩니다
-python3 build/build_book.py student      # 학생용
-python3 build/build_book.py instructor   # 교수자용(모범 답안 수록)
-
-# 위키독스 동기화
-export WD_TOKEN=...     # 위키독스 API 토큰
-python3 build/sync_wikidocs.py
-```
-
-빌드 스크립트가 하는 일:
-
-- `build2.py` — 모범 답안 분리(학생용/교수자용), 각주 라벨 정규화
-- `design_styles.py` — Word 참조 문서(스타일·색·서체) 생성
-- `postprocess.py` — 표지, 표 서식, 구역 설정
-- `finalize_uno2.py` — 목차 갱신, 머리글(좌: 쪽수·도서명 / 우: 장 제목·쪽수), 페이지 설정
-- `build_book.py` — 위 과정을 묶어 실행하고 색인을 자동 생성
-- `wd_style.py` — 위키독스용 스타일 변환(인쇄본과 같은 시각 언어)
 
 ## 이용조건
 
