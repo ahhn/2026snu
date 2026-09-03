@@ -1,0 +1,10 @@
+# 빌드 중간 산출물
+combined*.md
+raw_*.docx
+pp_*.docx
+pass1_*.docx
+final_*.docx
+reference_book.docx
+*.log
+pdf/
+__pycache__/
