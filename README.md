@@ -44,4 +44,5 @@
 
 - 토론 질문·실습의 모범 답안을 모은 부록 「토론 쟁점 해설」은 수업 진행 중이므로 이 저장소와 공개 PDF에 포함하지 않았습니다. 2026년 12월 학기 종료 후 공개할 예정입니다.
 - 11장 실습에 사용하는 학습 사이트: <https://archivelabedu.github.io/ontology-site/>
-- 오류 신고와 제안은 Issues 또는 <djahhn@gmail.com>으로 보내 주세요.
+- 오류 신고와 제안은 [Issues](https://github.com/ahhn/2026snu/issues) 또는 <djahhn@gmail.com>으로 보내 주세요.
+- 배포 이후의 오류 정정과 변경 사항은 [CHANGELOG.md](CHANGELOG.md)에 기록합니다. 온라인판(위키독스)은 항상 최신 상태입니다.
