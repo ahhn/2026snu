@@ -98,9 +98,13 @@ Tibbo, Helen R. "Primarily History in America: How U.S. Historians Search for Pr
 
 Tirabassi, Katherine E. "Journeying into the Archives: Exploring the Pragmatics of Archival Research." In Ramsey et al., eds., *Working in the Archives*, 169-180. 2009.
 
+Warnick, Chris. "Locating the Archives: Finding Aids and Archival Scholarship in Composition and Rhetoric." In Ramsey et al., eds., *Working in the Archives*, 91-101. 2009.
+
 Wilkinson, Mark D., et al. "The FAIR Guiding Principles for Scientific Data Management and Stewardship." *Scientific Data* 3 (2016): 160018.
 
 Yakel, Elizabeth. "Archival Representation." *Archival Science* 3 (2003): 1-25.
+
+Yakel, Elizabeth. "Searching and Seeking in the Deep Web: Primary Sources on the Internet." In Ramsey et al., eds., *Working in the Archives*, 102-118. 2009.
 
 Yakel, Elizabeth. "Seeking Information, Seeking Connections, Seeking Meaning: Genealogists and Family Historians." *Information Research* 10, no. 1 (2004).
 
