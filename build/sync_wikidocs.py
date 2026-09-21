@@ -35,7 +35,7 @@ def extract_boxes(text):
     """(라벨, 본문) 목록. 라벨 = 박스 자체 라벨 또는 직전 질문/실습 제목."""
     lines = text.splitlines()
     last_q, last_h, res = None, None, []
-    for ln in lines:
+    for idx, ln in enumerate(lines):
         s = ln.strip()
         m = re.match(r"^\*\*(Q\d+\..+?)\*\*$", s)
         if m: last_q = m.group(1)
@@ -47,6 +47,22 @@ def extract_boxes(text):
             mm = re.match(r"^\*\*💬 모범 답안(?::\s*(.*?))?\*\*\s*[—-]?\s*(.*)$", body)
             label = (mm.group(1) or "").strip() if mm else ""
             content = mm.group(2).strip() if mm else body
+            # 여러 문단으로 이어지는 blockquote 답안 수집
+            paras, cur = [content], []
+            j = idx + 1
+            while j < len(lines) and (lines[j].lstrip().startswith(">") or (lines[j].strip()=="" and j+1 < len(lines) and lines[j+1].lstrip().startswith(">"))):
+                if "💬 모범 답안" in lines[j]: break
+                if lines[j].strip()=="" and "💬 모범 답안" in lines[j+1]: break
+                t = re.sub(r"^\s*>\s?", "", lines[j]).rstrip()
+                if t == "" :
+                    if cur: paras.append("\n".join(cur)); cur = []
+                elif cur and not re.match(r"^(\d+(~\d+)?\.|-|\*|\|)\s?", t):
+                    cur[-1] = cur[-1] + " " + t
+                else:
+                    cur.append(t)
+                j += 1
+            if cur: paras.append("\n".join(cur))
+            content = "\n\n".join(x for x in paras if x.strip())
             if not label:
                 label = last_q or last_h or "모범 답안"
             elif last_h:

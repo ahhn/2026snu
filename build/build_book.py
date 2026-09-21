@@ -9,10 +9,11 @@ exec(_src)  # convert_footnotes, strip_answer_boxes, student_adjust
 B = "/home/claude/book"
 SRC, BACK = f"{B}/src", f"{B}/back"
 kind = sys.argv[1]
-student = kind == "student"
+public = kind == "public"          # 공개본: 학생용에서 부록 A(모범 답안)를 뺀 판
+student = kind in ("student", "public")
 edition_short = "학생용" if student else "교수자용 · 모범 답안 수록"
 edition_sub = "" if student else "교수자용(모범 답안 수록)"
-tag = "학생용" if student else "교수자용"
+tag = "공개용" if public else ("학생용" if student else "교수자용")
 
 HEADER = f"""---
 title: "기록정보서비스론"
@@ -53,10 +54,13 @@ def body_parts():
         t = open(f, encoding="utf-8").read()
         if student:
             t = student_adjust(strip_answer_boxes(t), stem)
+        if public and stem == "00_front":
+            t = t.replace("이 책 맨 뒤의 부록 「토론 쟁점 해설」에 모아 두었다.",
+                          "부록 「토론 쟁점 해설」로 묶어 학기 종료(2026년 12월) 후 공개한다. 이 판에는 부록 A가 실려 있지 않다.")
         if stem != "00_front":
             t = add_intro(t)
         parts.append(convert_footnotes(t, "c" + stem[:2]))
-    if student:
+    if student and not public:
         app = open(f"{B}/appendix/appendix.md", encoding="utf-8").read().strip()
         parts.append("# 부록. 토론 쟁점 해설\n\n" + app + "\n")
     parts.append(open(f"{BACK}/serendipity.md", encoding="utf-8").read().strip() + "\n")
