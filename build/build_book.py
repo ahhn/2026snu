@@ -59,6 +59,7 @@ def body_parts():
     if student:
         app = open(f"{B}/appendix/appendix.md", encoding="utf-8").read().strip()
         parts.append("# 부록. 토론 쟁점 해설\n\n" + app + "\n")
+    parts.append(open(f"{BACK}/serendipity.md", encoding="utf-8").read().strip() + "\n")
     parts.append(open(f"{BACK}/bibliography.md", encoding="utf-8").read().strip() + "\n")
     return parts
 
