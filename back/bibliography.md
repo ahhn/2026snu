@@ -80,6 +80,8 @@ Missier, Paolo, Khalid Belhajjame, and James Cheney. "The W3C PROV Family of Spe
 
 Morris, Sammie L., and Shirley K. Rose. "Invisible Hands: Recognizing Archivists' Work to Make Records Accessible." In Ramsey et al., eds., *Working in the Archives*, 51-78. 2009.
 
+Ostergaard, Lori. "Open to the Possibilities: Seven Tales of Serendipity in the Archives." In Ramsey et al., eds., *Working in the Archives*, 40-41. 2009. (일곱 편의 인터뷰 인터챕터: Gold 42-44; Mortensen 45-47; Gaillet 149-151; Enoch 152-154; Fitzgerald 248-249; Lindblom 250-252; Buchanan 253-255)
+
 Prom, Christopher J. "User Interactions with Electronic Finding Aids in a Controlled Setting." *The American Archivist* 67 (2004): 234-268.
 
 Pugh, Mary Jo. "The Illusion of Omniscience: Subject Access and the Reference Archivist." *The American Archivist* 45 (1982).

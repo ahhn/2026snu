@@ -16,6 +16,19 @@
 
 ---
 
+## [v1.7] 2026-09-21
+
+### 정정
+- **3장 3.2.1** — 부교재 『Working in the Archives』의 세렌디피티 일화에 관한 서술을 바로잡음.
+  - 오: "세렌디피티 일화 일곱 편과 연구자 인터뷰(David Gold, Peter Mortensen 등)" — 둘이 별개인 것처럼 서술
+  - 정: 일곱 편의 일화가 곧 숙련 연구자 일곱 명(Gold, Mortensen, Gaillet, Enoch, Fitzgerald, Lindblom, Buchanan)의 인터뷰를 바탕으로 한 인터챕터임. Lori Ostergaard의 도입글(pp. 40–41)이 이를 밝히고 있음.
+- **3장 각주 [8]** — 도입글 저자(Ostergaard)를 명기하고, 누락된 다섯 편(Gaillet, Enoch, Fitzgerald, Lindblom, Buchanan)의 제목과 쪽수를 추가.
+
+### 추가
+- **참고문헌** — Ostergaard(2009)를 국외 문헌에 추가.
+
+---
+
 ## [v1.6] 2026-09-20
 
 ### 변경
