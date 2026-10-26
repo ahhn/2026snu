@@ -8,3 +8,6 @@ reference_book.docx
 *.log
 pdf/
 __pycache__/
+back/index_*.md
+ref_base.docx
+ref_work/
