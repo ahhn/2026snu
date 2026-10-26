@@ -26,6 +26,15 @@ def callout(inner):
     return (f'<div style="background:{CREAM};border-left:5px solid {GREEN};border-radius:3px;'
             f'padding:12px 16px;margin:16px 0;line-height:1.85;">{inner}</div>\n')
 
+def inline_md(s):
+    """callout 안은 HTML 블록이라 마크다운 인라인 서식이 렌더링되지 않는다.
+    굵게·기울임·코드·링크를 HTML 태그로 미리 바꾼다. **를 *보다 먼저 처리한다."""
+    s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
+    s = re.sub(r"(?<![*\w])\*(?!\s)([^*]+?)(?<!\s)\*(?!\*)", r"<em>\1</em>", s)
+    s = re.sub(r"\[([^\]]+)\]\(([^)\s]+)\)", r'<a href="\2">\1</a>', s)
+    return s
+
 def _split_front(text):
     """맨 앞 H1(장 제목) 분리."""
     m = re.match(r"^#\s+(.+?)\s*$", text, flags=re.M)
@@ -58,7 +67,7 @@ def stylize(text, chapter_no=None, title=None, subtitle="", label=None):
             buf = []
             while i < len(lines) and lines[i].lstrip().startswith(">"):
                 buf.append(re.sub(r"^\s*>\s?", "", lines[i])); i += 1
-            out.append(callout("<br>".join(b for b in buf if b.strip())))
+            out.append(callout("<br>".join(inline_md(b) for b in buf if b.strip())))
         else:
             out.append(lines[i]); i += 1
     body = "\n".join(out)
