@@ -9,7 +9,8 @@ exec(_src)  # convert_footnotes, strip_answer_boxes, student_adjust
 B = "/home/claude/book"
 SRC, BACK = f"{B}/src", f"{B}/back"
 kind = sys.argv[1]
-public = kind == "public"          # 공개본: 학생용에서 부록 A(모범 답안)를 뺀 판
+public = kind == "public"          # 공개본: 부록 A(모범 답안 해설)를 수록한 판
+student_only = kind == "student"   # 학생용: 학기 중 배포본. 부록 A를 빼서 스스로 답을 구성하게 한다
 student = kind in ("student", "public")
 edition_short = "학생용" if student else "교수자용 · 모범 답안 수록"
 edition_sub = "" if student else "교수자용(모범 답안 수록)"
@@ -54,13 +55,13 @@ def body_parts():
         t = open(f, encoding="utf-8").read()
         if student:
             t = student_adjust(strip_answer_boxes(t), stem)
-        if public and stem == "00_front":
+        if student_only and stem == "00_front":
             t = t.replace("이 책 맨 뒤의 부록 「토론 쟁점 해설」에 모아 두었다.",
                           "부록 「토론 쟁점 해설」로 묶어 학기 종료(2026년 12월) 후 공개한다. 이 판에는 부록 A가 실려 있지 않다.")
         if stem != "00_front":
             t = add_intro(t)
         parts.append(convert_footnotes(t, "c" + stem[:2]))
-    if student and not public:
+    if public:
         # 부록 A는 원고의 '모범 답안' 상자에서 파생되므로 빌드할 때마다 다시 만든다.
         subprocess.run([sys.executable, f"{B}/make_appendix.py", f"{B}/appendix/appendix.md"],
                        check=True)
