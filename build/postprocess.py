@@ -51,11 +51,22 @@ doc = doc.replace("<w:body>", "<w:body>" + cover_xml, 1)
 TOTAL = 9070  # 본문 폭(twips)
 KEEP_TABLE_MAX_ROWS = 10  # 이 행수 이하의 표는 쪽을 넘기지 않고 통째로 옮긴다
 MIN_COL = 1000            # 열 최소 폭(twips). 한글 3자 + 여백이 꺾이지 않는 선
+HALF_W = 100              # 반각 1자의 대략적 폭(twips). 한글은 2단위로 센다
+CELL_PAD = 240            # 셀 좌우 여백
+MAX_FLOOR = 2800          # 한 낱말이 아주 길 때 열 하나가 표를 삼키지 않도록 둔 상한
 def cell_text_len(tc):
     # <w:t ...> 만 잡는다. '<w:t[^>]*>'로 쓰면 <w:tcPr />·<w:tblHeader .../> 같은
     # 다른 태그까지 걸려 본문이 아니라 XML 마크업 길이를 세게 된다(열너비가 균등해지는 원인).
     txt = "".join(re.findall(r'<w:t(?:\s[^>]*)?>(.*?)</w:t>', tc, flags=re.S))
     return sum(2 if ord(ch) > 0x2E80 else 1 for ch in txt)
+def cell_min_token(tc):
+    # 셀 안에서 '끊을 수 없는 가장 긴 낱말'의 폭. 열의 min-content 폭을 정하는 데 쓴다.
+    # 공백으로만 끊으므로 한글 어절 하나가 중간에서 꺾이는 일을 막는다.
+    txt = "".join(re.findall(r'<w:t(?:\s[^>]*)?>(.*?)</w:t>', tc, flags=re.S))
+    best = 0
+    for tok in txt.split():
+        best = max(best, sum(2 if ord(ch) > 0x2E80 else 1 for ch in tok))
+    return best
 def style_table(m):
     t = m.group(0)
     t = t.replace('<w:tcPr />', '<w:tcPr></w:tcPr>').replace('<w:tcPr/>', '<w:tcPr></w:tcPr>')
@@ -73,15 +84,31 @@ def style_table(m):
         weights.append(min(max(L, 10), 70))
     widths = [int(TOTAL * w / sum(weights)) for w in weights]
     widths[-1] += TOTAL - sum(widths)
-    # 짧은 레이블만 든 열이 지나치게 눌려 글자가 꺾이지 않도록 최소 폭을 준다.
-    # 모자란 만큼은 가장 넓은 열에서 가져온다.
+    # 열마다 최소 폭(floor)을 둔다. 가중치는 '가장 긴 셀'에 비례하므로, 긴 설명이 든 열이
+    # 넓어지는 대신 짧은 이름만 든 열이 낱말 중간에서 꺾이는 일이 생긴다. 그래서 floor를
+    # 그 열의 가장 긴 낱말이 한 줄에 들어가는 폭으로 잡고, 모자란 만큼 가장 넓은 열에서 가져온다.
+    floors = []
+    for c in range(ncol):
+        tok = 0
+        for r in rows:
+            tcs = re.findall(r'<w:tc>.*?</w:tc>', r, flags=re.S)
+            if c < len(tcs): tok = max(tok, cell_min_token(tcs[c]))
+        floors.append(min(max(MIN_COL, tok * HALF_W + CELL_PAD), MAX_FLOOR))
     if len(widths) > 1:
-        for i, w in enumerate(widths):
-            if w < MIN_COL:
-                j = widths.index(max(widths))
-                if j != i and widths[j] - (MIN_COL - w) >= MIN_COL:
-                    widths[j] -= MIN_COL - w
-                    widths[i] = MIN_COL
+        if sum(floors) > TOTAL:
+            floors = [int(f * TOTAL / sum(floors)) for f in floors]
+        widths = [max(widths[i], floors[i]) for i in range(ncol)]
+        # 바닥을 올린 만큼 표가 넘치면, 여유(현재 폭 − 바닥)가 있는 열들에서 비례해 거둬들인다.
+        excess = sum(widths) - TOTAL
+        if excess > 0:
+            slack = [widths[i] - floors[i] for i in range(ncol)]
+            tot = sum(slack)
+            if tot > 0:
+                for i in range(ncol):
+                    widths[i] -= int(excess * slack[i] / tot)
+        # 반올림 오차는 여유가 가장 많은 열에서 흡수한다.
+        slack = [widths[i] - floors[i] for i in range(ncol)]
+        widths[slack.index(max(slack))] += TOTAL - sum(widths)
     grid = '<w:tblGrid>' + ''.join(f'<w:gridCol w:w="{w}"/>' for w in widths) + '</w:tblGrid>'
     t = re.sub(r'<w:tblGrid>.*?</w:tblGrid>', grid, t, flags=re.S)
     t = re.sub(r'<w:tblW [^>]*/>', f'<w:tblW w:w="{TOTAL}" w:type="dxa"/><w:tblLayout w:type="fixed"/>', t)
