@@ -21,7 +21,7 @@ subtitle: "{edition_sub}"
 author:
   - "서울대학교 인문대학 협동과정 기록학전공"
   - "저자: 안대진"
-date: "2026년 9월"
+date: "초판 2026년 9월 3일 · 개정 2026년 11월 8일 (v1.29)"
 lang: ko
 toc-title: "목차"
 abstract-title: "강좌 안내"
@@ -61,6 +61,9 @@ def body_parts():
             t = add_intro(t)
         parts.append(convert_footnotes(t, "c" + stem[:2]))
     if student and not public:
+        # 부록 A는 원고의 '모범 답안' 상자에서 파생되므로 빌드할 때마다 다시 만든다.
+        subprocess.run([sys.executable, f"{B}/make_appendix.py", f"{B}/appendix/appendix.md"],
+                       check=True)
         app = open(f"{B}/appendix/appendix.md", encoding="utf-8").read().strip()
         parts.append("# 부록. 토론 쟁점 해설\n\n" + app + "\n")
     parts.append(open(f"{BACK}/serendipity.md", encoding="utf-8").read().strip() + "\n")

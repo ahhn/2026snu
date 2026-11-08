@@ -5,8 +5,9 @@
 서울대학교 인문대학 협동과정 기록학전공 「기록정보서비스론」(2026학년도 2학기) 강의교재입니다.
 
 - 온라인판(전자책): <https://wikidocs.net/book/21081>
-- 인쇄본 PDF: **[내려받기 (2.7MB)](https://github.com/ahhn/2026snu/releases/latest/download/archival-reference-services-2026.pdf)** · [저장소에서 보기](dist/archival-reference-services-2026.pdf)
+- 인쇄본 PDF: **[내려받기 (3.0MB)](https://github.com/ahhn/2026snu/releases/latest/download/archival-reference-services-2026.pdf)** · [저장소에서 보기](dist/archival-reference-services-2026.pdf)
 - 저자: 안대진 · <djahhn@gmail.com>
+- **초판 2026년 9월 3일 · 최신판 v1.29 (2026년 11월 8일)** — 변경 내용은 [CHANGELOG](CHANGELOG.md), 판별 발행일은 [`back/colophon.md`](back/colophon.md)의 개정 내역 참조
 
 <p align="center">
   <img src="cover.png" alt="기록정보서비스론 표지 — 기록과 이용자를 연결하는 서비스의 설계" width="360">
