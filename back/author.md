@@ -5,11 +5,11 @@
 :::
 
 ::: {custom-style="AuthorInfo"}
-아카이브랩 대표
+기록정보학 박사
 :::
 
 ::: {custom-style="AuthorInfo"}
-명지대학교 기록정보과학전문대학원 겸임교수
+아카이브랩 대표
 :::
 
 ::: {custom-style="AuthorInfo"}
