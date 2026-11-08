@@ -49,6 +49,7 @@ doc = doc.replace("<w:body>", "<w:body>" + cover_xml, 1)
 
 # ---------- 2) 표 스타일 ----------
 TOTAL = 9070  # 본문 폭(twips)
+KEEP_TABLE_MAX_ROWS = 10  # 이 행수 이하의 표는 쪽을 넘기지 않고 통째로 옮긴다
 def cell_text_len(tc):
     txt = "".join(re.findall(r'<w:t[^>]*>(.*?)</w:t>', tc, flags=re.S))
     return sum(2 if ord(ch) > 0x2E80 else 1 for ch in txt)
@@ -73,7 +74,10 @@ def style_table(m):
     t = re.sub(r'<w:tblGrid>.*?</w:tblGrid>', grid, t, flags=re.S)
     t = re.sub(r'<w:tblW [^>]*/>', f'<w:tblW w:w="{TOTAL}" w:type="dxa"/><w:tblLayout w:type="fixed"/>', t)
     t = t.replace('<w:jc w:val="start" />', '<w:jc w:val="left"/>')
-    def fix_row(r, is_header):
+    # 짧은 표는 쪽을 넘기지 않게 묶는다(마지막 행을 뺀 모든 문단에 keepNext).
+    # 한 쪽에 들어갈 수 없을 만큼 긴 표는 그대로 나뉘게 둔다.
+    keep_together = len(rows) <= KEEP_TABLE_MAX_ROWS
+    def fix_row(r, is_header, is_last):
         tcs = re.findall(r'<w:tc>.*?</w:tc>', r, flags=re.S)
         for i, tc in enumerate(tcs):
             w = widths[i] if i < len(widths) else widths[-1]
@@ -81,13 +85,33 @@ def style_table(m):
             new = tc.replace('<w:tcPr></w:tcPr>', f'<w:tcPr><w:tcW w:w="{w}" w:type="dxa"/>{shd}<w:vAlign w:val="top"/></w:tcPr>', 1)
             rpr = f'<w:rPr><w:b/><w:color w:val="FFFFFF"/><w:sz w:val="19"/><w:szCs w:val="19"/>' if is_header else '<w:rPr><w:sz w:val="19"/><w:szCs w:val="19"/>'
             new = re.sub(r'<w:r>(<w:rPr>)?', lambda mo: '<w:r>' + rpr + ('' if mo.group(1) else '</w:rPr>'), new)
-            new = re.sub(r'<w:pPr>', '<w:pPr><w:spacing w:before="40" w:after="40" w:line="280" w:lineRule="auto"/>', new)
+            # pPr 자식은 스키마 순서를 지켜야 한다(pStyle → keepNext → spacing → 나머지).
+            # 순서가 어긋나면 LibreOffice가 조용히 무시한다.
+            keep = '<w:keepNext/>' if (keep_together and not is_last) else ''
+            spacing = '<w:spacing w:before="40" w:after="40" w:line="280" w:lineRule="auto"/>'
+            def rebuild_ppr(mo):
+                inner = mo.group(1)
+                style = ''
+                ms = re.search(r'<w:pStyle[^>]*/>', inner)
+                if ms:
+                    style = ms.group(0)
+                    inner = inner.replace(style, '', 1)
+                inner = re.sub(r'<w:keepNext\s*/>|<w:spacing[^>]*/>', '', inner)
+                return '<w:pPr>' + style + keep + spacing + inner + '</w:pPr>'
+            new = re.sub(r'<w:pPr>(.*?)</w:pPr>', rebuild_ppr, new, flags=re.S)
+            # pPr가 아예 없는 문단에는 만들어 준다.
+            new = re.sub(r'<w:p>(?!\s*<w:pPr>)', '<w:p><w:pPr>' + keep + spacing + '</w:pPr>', new)
             r = r.replace(tc, new, 1)
-        if is_header and '<w:tblHeader' not in r:
-            r = r.replace('<w:tr>', '<w:tr><w:trPr><w:tblHeader/></w:trPr>', 1)
+        # 행 자체가 쪽에 걸쳐 쪼개지지 않게 한다.
+        props = '<w:cantSplit/>' + ('<w:tblHeader/>' if is_header and '<w:tblHeader' not in r else '')
+        if '<w:trPr>' in r:
+            r = r.replace('<w:trPr>', '<w:trPr>' + props, 1)
+        else:
+            r = re.sub(r'<w:tr(\s[^>]*)?>', lambda mo: mo.group(0) + '<w:trPr>' + props + '</w:trPr>', r, count=1)
         return r
+    last = len(rows) - 1
     for i, r in enumerate(rows):
-        t = t.replace(r, fix_row(r, i == 0), 1)
+        t = t.replace(r, fix_row(r, i == 0, i == last), 1)
     return t
 doc = re.sub(r'<w:tbl>.*?</w:tbl>', style_table, doc, flags=re.S)
 
