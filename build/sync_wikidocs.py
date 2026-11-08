@@ -10,7 +10,12 @@ HDR = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
 SRC = "/home/claude/book/src"
 PAGE_IDS = list(range(411525, 411541))   # 00 ~ 15
 APPENDIX_ID = 424364
-IMG_URL = "https://static.wikidocs.net/images/page/411536/ontology-site_71xmrXQ.png"
+# 원고의 이미지 경로 → 위키독스에서 쓸 공개 URL.
+# 위키독스에는 업로드 API가 없으므로, 올려 둔 파일이 없는 그림은 원 출처를 그대로 가리킨다.
+IMG_MAP = {
+    "src/ontology-site.png": "https://static.wikidocs.net/images/page/411536/ontology-site_71xmrXQ.png",
+    "src/atom-description.png": "https://www.accesstomemory.org/en/docs/2.6/_images/context-menu-description.png",
+}
 
 def patch(pid, payload):
     data = json.dumps(payload).encode("utf-8")
@@ -110,8 +115,10 @@ for f, pid in zip(files, PAGE_IDS):
     # 학생용 본문
     student = strip_answer_boxes(body)
     if stem == "00": student = student_front(student)
-    student = student.replace("(src/ontology-site.png)", f"({IMG_URL})")
-    student = re.sub(r"(!\[([^\]]*)\]\(" + re.escape(IMG_URL) + r"\))", lambda mo: mo.group(1) + "\n\n<p align=\"center\"><em>" + mo.group(2) + "</em></p>", student)
+    for local, url in IMG_MAP.items():
+        student = student.replace(f"({local})", f"({url})")
+        student = re.sub(r"(!\[([^\]]*)\]\(" + re.escape(url) + r"\))",
+                         lambda mo: mo.group(1) + "\n\n<p align=\"center\"><em>" + mo.group(2) + "</em></p>", student)
     student = convert_footnotes(student, "c" + stem)
     ch = None if stem == "00" else int(stem)
     clean_title = re.sub(r"\s*\(\d+주\)\s*$", "", title)
