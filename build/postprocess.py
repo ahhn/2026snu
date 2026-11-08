@@ -50,8 +50,11 @@ doc = doc.replace("<w:body>", "<w:body>" + cover_xml, 1)
 # ---------- 2) 표 스타일 ----------
 TOTAL = 9070  # 본문 폭(twips)
 KEEP_TABLE_MAX_ROWS = 10  # 이 행수 이하의 표는 쪽을 넘기지 않고 통째로 옮긴다
+MIN_COL = 1000            # 열 최소 폭(twips). 한글 3자 + 여백이 꺾이지 않는 선
 def cell_text_len(tc):
-    txt = "".join(re.findall(r'<w:t[^>]*>(.*?)</w:t>', tc, flags=re.S))
+    # <w:t ...> 만 잡는다. '<w:t[^>]*>'로 쓰면 <w:tcPr />·<w:tblHeader .../> 같은
+    # 다른 태그까지 걸려 본문이 아니라 XML 마크업 길이를 세게 된다(열너비가 균등해지는 원인).
+    txt = "".join(re.findall(r'<w:t(?:\s[^>]*)?>(.*?)</w:t>', tc, flags=re.S))
     return sum(2 if ord(ch) > 0x2E80 else 1 for ch in txt)
 def style_table(m):
     t = m.group(0)
@@ -67,9 +70,18 @@ def style_table(m):
             tcs = re.findall(r'<w:tc>.*?</w:tc>', r, flags=re.S)
             if c < len(tcs): lens.append(cell_text_len(tcs[c]))
         L = max(lens) if lens else 10
-        weights.append(min(max(L, 8), 70))
+        weights.append(min(max(L, 10), 70))
     widths = [int(TOTAL * w / sum(weights)) for w in weights]
     widths[-1] += TOTAL - sum(widths)
+    # 짧은 레이블만 든 열이 지나치게 눌려 글자가 꺾이지 않도록 최소 폭을 준다.
+    # 모자란 만큼은 가장 넓은 열에서 가져온다.
+    if len(widths) > 1:
+        for i, w in enumerate(widths):
+            if w < MIN_COL:
+                j = widths.index(max(widths))
+                if j != i and widths[j] - (MIN_COL - w) >= MIN_COL:
+                    widths[j] -= MIN_COL - w
+                    widths[i] = MIN_COL
     grid = '<w:tblGrid>' + ''.join(f'<w:gridCol w:w="{w}"/>' for w in widths) + '</w:tblGrid>'
     t = re.sub(r'<w:tblGrid>.*?</w:tblGrid>', grid, t, flags=re.S)
     t = re.sub(r'<w:tblW [^>]*/>', f'<w:tblW w:w="{TOTAL}" w:type="dxa"/><w:tblLayout w:type="fixed"/>', t)
