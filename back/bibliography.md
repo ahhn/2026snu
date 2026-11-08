@@ -1,22 +1,5 @@
 # 참고문헌
 
-## 교재·부교재
-
-### 주교재
-
-1. 안대진. (2026). 기록정보서비스론 [전자책]. 위키독스. https://wikidocs.net/book/21081
-
-### 부교재·참고서
-
-1. Mary Jo Pugh, *Providing Reference Services for Archives and Manuscripts*, Archival Fundamentals Series II. Chicago: Society of American Archivists, 2005. (ISBN 978-1-931666-12-1) — 참고봉사론의 고전. 본 교재 1·2·5·6·7·15장의 개념 틀로 사용.
-2. Alexis E. Ramsey, Wendy B. Sharer, Barbara L'Eplattenier, and Lisa S. Mastrangelo (Eds.), *Working in the Archives: Practical Research Methods for Rhetoric and Composition*. Carbondale: Southern Illinois University Press, 2009. (ISBN 978-0-8093-2950-2) — 연구자(이용자) 관점의 아카이브 연구법 안내서. 3·5·6·9장에서 사용.
-3. Kathleen D. Roe, *Advocacy and Awareness for Archivists*, Archival Fundamentals Series III, Vol. 3. Chicago: SAA, 2019 — 14장 아웃리치·옹호.
-
-### 권장 참고서
-
-1. 한국기록관리학회 편, 『기록관리의 이론과 실제』, 2018. — 국내 기록관리 제도·실무의 개설서. 9장 「알권리와 정보공개」(김유승)를 7장의 발표 문헌으로 다룬다.
-2. Cheryl Oestreicher, *Reference and Access for Archives and Manuscripts* (Archival Fundamentals Series III, Vol. 4). Chicago: Society of American Archivists, 2020. (ISBN 978-1-945246-40-1) — SAA 기본서 시리즈의 참고·접근 서비스 편. 이 교재 집필 시점에 원문을 확보하지 못해 본문에 반영하지 못했으나, 이 분야의 최신 표준 개설서이므로 심화 학습에 권한다.
-
 ## 국내 문헌
 
 김수현·이성숙. "RiC-CM을 적용한 영구기록물 기술방안 연구." 『한국기록관리학회지』 20(1) (2020): 115-137.
@@ -36,6 +19,8 @@
 정성윤. "현대사 연구자가 본 아카이브 (1부): 나의 아카이브 경험." 「아카이브다 — 대체로 무해한 아카이브 토크」 제172회. 팟빵, 2026년 3월 9일. https://www.podbbang.com/channels/1783528/episodes/25251581
 
 이해영. "기록관의 정보서비스 현황 조사 및 서비스 개선 방안에 관한 연구." 『한국기록관리학회지』 12(3) (2012): 177-201.
+
+한국기록관리학회 편. 『기록관리의 이론과 실제』. 2018. — 국내 기록관리 제도·실무의 개설서. 9장 「알권리와 정보공개」(김유승)를 7장의 발표 문헌으로 다룬다.
 
 "지역 문화자원 데이터 아카이브 구축 방법과 활용에 관한 연구: 광주 인문스토리 플랫폼 스토리파크 '흥미로운가'를 중심으로." (2024).
 
@@ -83,13 +68,21 @@ Missier, Paolo, Khalid Belhajjame, and James Cheney. "The W3C PROV Family of Spe
 
 Morris, Sammie L., and Shirley K. Rose. "Invisible Hands: Recognizing Archivists' Work to Make Records Accessible." In Ramsey et al., eds., *Working in the Archives*, 51-78. 2009.
 
+Oestreicher, Cheryl. *Reference and Access for Archives and Manuscripts*. Archival Fundamentals Series III, Vol. 4. Chicago: Society of American Archivists, 2020. (ISBN 978-1-945246-40-1) — SAA 기본서 시리즈의 참고·접근 서비스 편. 집필 시점에 원문을 확보하지 못해 본문에 반영하지 못했으나 이 분야의 최신 개설서이므로 심화 학습에 권한다.
+
 Ostergaard, Lori. "Open to the Possibilities: Seven Tales of Serendipity in the Archives." In Ramsey et al., eds., *Working in the Archives*, 40-41. 2009. (일곱 편의 인터뷰 인터챕터: Gold 42-44; Mortensen 45-47; Gaillet 149-151; Enoch 152-154; Fitzgerald 248-249; Lindblom 250-252; Buchanan 253-255)
 
 Prom, Christopher J. "User Interactions with Electronic Finding Aids in a Controlled Setting." *The American Archivist* 67 (2004): 234-268.
 
 Pugh, Mary Jo. "The Illusion of Omniscience: Subject Access and the Reference Archivist." *The American Archivist* 45 (1982).
 
+Pugh, Mary Jo. *Providing Reference Services for Archives and Manuscripts*. Archival Fundamentals Series II. Chicago: Society of American Archivists, 2005. (ISBN 978-1-931666-12-1) — 참고봉사론의 고전. 이 교재 1·2·5·6·7·15장의 개념 틀로 삼았다.
+
 Ramsey, Alexis E. "Viewing the Archives: The Hidden and the Digital." In Ramsey et al., eds., *Working in the Archives*, 79-90. 2009.
+
+Ramsey, Alexis E., Wendy B. Sharer, Barbara L'Eplattenier, and Lisa S. Mastrangelo, eds. *Working in the Archives: Practical Research Methods for Rhetoric and Composition*. Carbondale: Southern Illinois University Press, 2009. (ISBN 978-0-8093-2950-2) — 연구자(이용자) 관점의 아카이브 연구법 안내서. 3·5·6·9장에서 사용했다.
+
+Roe, Kathleen D. *Advocacy and Awareness for Archivists*. Archival Fundamentals Series III, Vol. 3. Chicago: Society of American Archivists, 2019. — 14장 아웃리치·옹호의 바탕.
 
 Schwartz, Joan M., and Terry Cook. "Archives, Records, and Power: The Making of Modern Memory." *Archival Science* 2 (2002): 1-19.
 
