@@ -8,6 +8,7 @@ import os, re, sys, json, urllib.request
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from wd_style import stylize  # noqa: E402
+from wd_images import swap_images  # noqa: E402
 
 
 TOKEN = open(os.path.expanduser("~/.wd_token")).read().strip()
@@ -15,7 +16,6 @@ BASE = "https://wikidocs.net"
 HDR = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
 SRC = os.path.join(os.path.dirname(HERE), "src")
 PAGE_IDS = list(range(411525, 411541))  # 00 ~ 15
-IMG_URL = "https://static.wikidocs.net/images/page/411536/ontology-site_71xmrXQ.png"
 
 
 def api(method, pid, payload=None):
@@ -65,10 +65,7 @@ def render(stem):
     title = m.group(1).strip() if m else ""
     body = raw[m.end():] if m else raw
     student = strip_answer_boxes(body)
-    student = student.replace("(src/ontology-site.png)", f"({IMG_URL})")
-    student = re.sub(r"(!\[([^\]]*)\]\(" + re.escape(IMG_URL) + r"\))",
-                     lambda mo: mo.group(1) + "\n\n<p align=\"center\"><em>" + mo.group(2) + "</em></p>",
-                     student)
+    student = swap_images(student)
     student = convert_footnotes(student, "c" + stem)
     clean_title = re.sub(r"\s*\(\d+주\)\s*$", "", title)
     student = stylize(student, int(stem), re.sub(r"^\d+장\.\s*", "", clean_title))
