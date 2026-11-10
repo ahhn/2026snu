@@ -22,7 +22,7 @@ subtitle: "{edition_sub}"
 author:
   - "서울대학교 인문대학 협동과정 기록학전공"
   - "저자: 안대진"
-date: "초판 2026년 9월 3일 · 개정 2026년 11월 8일 (v1.29)"
+date: "초판 2026년 9월 3일 · 개정 2026년 11월 10일 (v1.30)"
 lang: ko
 toc-title: "목차"
 abstract-title: "강좌 안내"
