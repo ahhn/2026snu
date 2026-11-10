@@ -15,6 +15,7 @@ APPENDIX_ID = 424364
 IMG_MAP = {
     "src/ontology-site.png": "https://static.wikidocs.net/images/page/411536/ontology-site_71xmrXQ.png",
     "src/atom-description.png": "https://www.accesstomemory.org/en/docs/2.6/_images/context-menu-description.png",
+    "src/fip-ontology.png": "https://raw.githubusercontent.com/ahhn/2026snu/main/src/fip-ontology.png",
 }
 
 def patch(pid, payload):
